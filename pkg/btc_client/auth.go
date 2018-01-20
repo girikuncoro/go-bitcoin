@@ -1,4 +1,4 @@
-package auth
+package btc_client
 
 import (
 	"crypto/hmac"
@@ -10,12 +10,12 @@ import (
 
 type Auther interface {
 	Sign(string) string
+	Nonce() string
 }
 
 type Auth struct {
 	ApiKey    string
 	SecretKey []byte
-	Nonce     string
 }
 
 func NewAuth(apiKey, secretKey string) *Auth {
@@ -23,7 +23,6 @@ func NewAuth(apiKey, secretKey string) *Auth {
 		ApiKey:    apiKey,
 		SecretKey: []byte(secretKey),
 	}
-	newAuth.Nonce = newAuth.currentNonce()
 	return newAuth
 }
 
@@ -33,7 +32,7 @@ func (a *Auth) Sign(message string) string {
 	return hex.EncodeToString(sig.Sum(nil))
 }
 
-func (a *Auth) currentNonce() string {
+func (a *Auth) Nonce() string {
 	t := time.Now()
 	return strconv.Itoa(int(t.Unix()))
 }
