@@ -13,27 +13,27 @@ type Ticker struct {
 	}
 }
 
-func (c *Client) GetPrice(coinName string) (*Ticker, error) {
-	req, err := c.setRequest("GET", c.buildTickerURL(coinName), "")
+func (c *VipClient) GetPrice(coinName string) (string, error) {
+	req, err := c.baseClient.Request("GET", c.buildTickerURL(coinName), "")
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	res, err := c.response(req)
+	res, err := c.baseClient.Response(req)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	t := &Ticker{}
 	err = json.Unmarshal(res, &t)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return t, nil
+	return t.Ticker.Last, nil
 }
 
-func (c *Client) buildTickerURL(coinName string) string {
+func (c *VipClient) buildTickerURL(coinName string) string {
 	url := fmt.Sprintf(TickerURL, coinName)
 	return url
 }

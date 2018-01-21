@@ -19,11 +19,10 @@ type Auth struct {
 }
 
 func NewAuth(apiKey, secretKey string) *Auth {
-	newAuth := &Auth{
+	return &Auth{
 		ApiKey:    apiKey,
 		SecretKey: []byte(secretKey),
 	}
-	return newAuth
 }
 
 func (a *Auth) Sign(message string) string {
