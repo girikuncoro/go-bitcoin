@@ -1,4 +1,4 @@
-package btc_client
+package vip_client
 
 import (
 	"encoding/json"

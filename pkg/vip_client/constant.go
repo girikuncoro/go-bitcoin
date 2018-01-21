@@ -1,4 +1,4 @@
-package btc_client
+package vip_client
 
 const (
 	BitcoinURL = "https://vip.bitcoin.co.id/tapi"

@@ -1,4 +1,4 @@
-package btc_client
+package vip_client
 
 func (c *Client) GetInfo() ([]byte, error) {
 	params := c.encodedParams(ParamGetInfo)
