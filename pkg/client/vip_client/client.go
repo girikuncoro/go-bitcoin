@@ -7,11 +7,6 @@ import (
 	"github.com/girikuncoro/go-bitcoin/pkg/client/base_client"
 )
 
-type VipClienter interface {
-	GetPrice()
-	GetInfo()
-}
-
 type VipClient struct {
 	auth       *Auth
 	baseClient *base_client.BaseClient

@@ -4,10 +4,6 @@ import (
 	"github.com/girikuncoro/go-bitcoin/pkg/client/base_client"
 )
 
-type CoinbaseClienter interface {
-	GetPrice()
-}
-
 type CoinbaseClient struct {
 	baseClient *base_client.BaseClient
 }
