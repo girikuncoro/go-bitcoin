@@ -2,6 +2,7 @@ package btc_client
 
 const (
 	BitcoinURL = "https://vip.bitcoin.co.id/tapi"
+	TickerURL  = "https://vip.bitcoin.co.id/api/%s_idr/ticker"
 )
 
 const (

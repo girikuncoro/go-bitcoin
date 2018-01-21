@@ -8,7 +8,16 @@ import (
 )
 
 type Clienter interface {
+	GetPrice()
 	GetInfo()
+	TransHistory()
+	TradeHistory()
+	OpenOrders()
+	OrderHistory()
+	GetOrder()
+	Trade()
+	CancelOrder()
+	Withdraw()
 }
 
 type Client struct {
@@ -35,28 +44,32 @@ func (c *Client) encodedParams(method string) string {
 	return v.Encode()
 }
 
-func (c *Client) setRequest(reqMethod, encodedParams string) (*http.Request, error) {
-	req, err := http.NewRequest(reqMethod, BitcoinURL, strings.NewReader(encodedParams))
+func (c *Client) setRequest(reqMethod, url, encodedParams string) (*http.Request, error) {
+	req, err := http.NewRequest(reqMethod, url, strings.NewReader(encodedParams))
 	if err != nil {
 		return nil, err
 	}
+	return req, nil
+}
+
+func (c *Client) setPrivateHeader(req *http.Request, encodedParams string) *http.Request {
 	req.Header.Add(HeaderContentType, HeaderFormUrlEncoded)
 	req.Header.Add(HeaderSignedMessage, c.auth.Sign(encodedParams))
 	req.Header.Add(HeaderApiKey, c.auth.ApiKey)
 
-	return req, nil
+	return req
 }
 
-func (c *Client) response(req *http.Request) (string, error) {
+func (c *Client) response(req *http.Request) ([]byte, error) {
 	res, err := c.http.Do(req)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer res.Body.Close()
 
 	data, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return string(data), nil
+	return data, nil
 }
